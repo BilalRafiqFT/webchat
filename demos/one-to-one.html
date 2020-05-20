@@ -145,10 +145,10 @@ connection.iceServers.push({    urls: 'stun:stun.wetutor.co.za'});
 connection.maxParticipantsAllowed = 2;
 
 // by default, socket.io server is assumed to be deployed on your own URL
-// connection.socketURL = '/';
+connection.socketURL = 'https://wetutor.inschool.co.za/';
 
 // comment-out below line if you do not have your own socket.io server
-connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+// connection.socketURL = 'https://wetutor.inschool.co.za/';
 
 connection.socketMessageEvent = 'one-to-one-demo';
 
