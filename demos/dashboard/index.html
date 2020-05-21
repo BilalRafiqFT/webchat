@@ -45,7 +45,7 @@
         }
       }
       else{
-        window.location.replace("https://live.wetutor.co.za/demos/dashboard/login.html");
+        window.location.replace("https://wetutor.inschool.co.za/demos/dashboard/login.html");
       }
     }
     window.onload = checkRole;
@@ -67,7 +67,6 @@ body {
     line-height: 1.5em;
 }
 
-
 header {
   border-bottom: 1px solid #95d4e7;
   height: 70px;
@@ -80,13 +79,7 @@ a {
 a:hover {
     color: #671345;
 }
-.btn{
-  border-radius: 100px;
-}
-.btn-primary{
-  background: red !important;
-  border: none;
-}
+
 .logo {
     display: block;
     width: 200px;
@@ -332,16 +325,9 @@ input[disabled], button[disabled] {
   border: none !important;
   font-size: 15px;
 }
-.form-control{
-  color: #40B0FC !important;
-  font-size: 20px;
-}
-.form-control::placeholder{
-  color: #40B0FC !important;
-}
 .form{
   padding: 0 15px;
-  max-width: 50%;
+  max-width: 70%;
   margin: 0 auto;
 }
 .target-screen-item{
@@ -349,13 +335,12 @@ input[disabled], button[disabled] {
 }
 .custombtn{
   border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 100px;
+  border-radius: 5px;
   margin: 0px 5px 30px;
 }
 .custombtn.active{
-  background: transparent;
-  color: #000;
-  border-color: #40B0FC;
+  background: #40B0FC;
+  color: #fff;
 }
 footer{
   background: #f8f8f8;
@@ -376,26 +361,60 @@ footer{
     <div class="row">
       <div class="col-md-12 text-center">
         <img class="logo" src="logo.png" alt="RTCMultiConnection" />
-        <button class="btn btn-primary" >logout</button>
       </div>
     </div>
 
-    <!-- <div class="row">
-      <div class="col-md-12 form mb-3" style="padding: 0 30px;">
-        <h3>Teacher ID: 100190</h3>
-        <p style="opacity: 0.6;">Saleam Essop</p>
-      </div>
-    </div> -->
 
     <ul class="nav d-flex justify-content-center" id="myTab" role="tablist">
-      <li id="createRoomtab" class="nav-item" role="presentation">
-        <a class="nav-link custombtn" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Create a class</a>
-      </li>
       <li class="nav-item" role="presentation">
-        <a class="nav-link active custombtn" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Join a class</a>
+        <a class="nav-link active custombtn" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Join a room</a>
+      </li>
+      <li id="createRoomtab" class="nav-item" role="presentation">
+        <a class="nav-link custombtn" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Create a room</a>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="row">
+          <div class="col-md-12 form">
+            <form>
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td>Class Id</td>
+                    <td width="70%">
+                      <input type="text" class="form-control" id="txt-roomid-hidden" placeholder="Class ID">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Name</td>
+                    <td><input type="text" class="form-control" id="txt-user-name-hidden" placeholder="Your Name"></td>
+                  </tr>
+                  <tr>
+                    <td>Password</td>
+                    <td>
+                      <input type="text" class="form-control" id="txt-room-password-hidden" placeholder="Password">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td><button type="button" class="btn btn-primary px-5" id="btn-join-hidden-room">Join</button></td>
+                  </tr>
+                </tbody>
+              </table>      
+            </form>
+
+            <div id="roomCount" style="font-size:13px; padding:15px; background:#f8f8f8">
+              <span class="top-span">Active rooms: <span id="active-rooms">0</span></span>
+            </div>
+
+
+            <table id="roomsTable" class="table table-borderless">
+              <tbody id="rooms-list"><tr><td colspan=9>No active room found for this demo.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       <div  class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
         <div class="row"> 
           <div class="col-md-12 form">
@@ -403,12 +422,15 @@ footer{
             <table class="table table-borderless">
               <tbody>
                 <tr>
-                  <td><input type="text" class="form-control" id="txt-roomid" placeholder="Create a class ID"></td>
+                  <td>Register Class Id</td>
+                  <td width="70%"><input type="text" class="form-control" id="txt-roomid" placeholder="Create a class ID"></td>
                 </tr>
                 <tr>
+                  <td>Name</td>
                   <td><input type="text" class="form-control" id="txt-user-name" placeholder="Your Name"></td>
                 </tr>
                 <tr>
+                  <td>Password</td>
                   <td>
                     <input type="text" class="form-control" id="txt-room-password" placeholder="Create a password">
                     <div class="target-screen-item  d-inline-block">
@@ -416,7 +438,8 @@ footer{
                     </div>
                   </td>
                 </tr>
-                <!-- <tr>
+                <tr>
+                  <td>Taget Screen</td>
                   <td>
                     <div class="row">
                       <div class="col-sm-3">
@@ -439,31 +462,34 @@ footer{
                       </div>
                     </div>
                   </td>
-                </tr> -->
+                </tr>
                 <tr>
+                  <td>Class Settings</td>
                   <td>
                     <div class="row">
-                      <div class="col-sm-6">
+                      <div class="col-sm-4">
                         <div class="target-screen-item  d-inline-block">
                           <label class="col-form-label">Broadcast <input type="checkbox" id="chk-broadcast-room">
                         </div>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-4">
                         <div class="target-screen-item  d-inline-block">
                           <label class="col-form-label">Interactive <input type="checkbox" id="chk-interactive-room">
                         </div>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-4">
                         <div class="target-screen-item  d-inline-block">
                           <label class="col-form-label">Hide Class <input type="checkbox" id="chk-hidden-room">
                         </div>
                       </div>
-                      <div class="col-sm-6">
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-4">
                         <div class="target-screen-item  d-inline-block">
                           <label class="col-form-label">Hide Incoming Video <input type="checkbox" id="chk-hidevideo-room">
                         </div>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-4">
                         <div class="target-screen-item  d-inline-block">
                           <label class="col-form-label">Mute Incoming Audio <input type="checkbox" id="chk-muteincoming-room">
                         </div>
@@ -472,6 +498,7 @@ footer{
                   </td>
                 </tr>
                 <tr>
+                  <td></td>
                   <td><button type="button" class="btn btn-primary" id="btn-create-room">Activate</button></td>
                 </tr>
               </tbody>
@@ -480,44 +507,6 @@ footer{
           </div>
         </div>
       </div>
-      <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row">
-          <div class="col-md-12 form">
-            <form>
-              <table class="table table-borderless">
-                <tbody>
-                  <tr>
-                    <td>
-                      <input type="text" class="form-control" id="txt-roomid-hidden" placeholder="Class ID">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" class="form-control" id="txt-user-name-hidden" placeholder="Your Name"></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <input type="text" class="form-control" id="txt-room-password-hidden" placeholder="Password">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><button type="button" class="btn btn-primary px-5" id="btn-join-hidden-room">Join</button></td>
-                  </tr>
-                </tbody>
-              </table>      
-            </form>
-
-            <div id="roomCount" style="font-size:13px; padding:15px; background:#f8f8f8">
-              <span class="top-span">Active rooms: <span id="active-rooms">0</span></span>
-            </div>
-
-
-            <table id="roomsTable" class="table table-borderless">
-              <tbody id="rooms-list"><tr><td colspan=9>No active room found for this demo.</td></tr></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      
     </div>
   </div>  
 
@@ -611,7 +600,7 @@ var publicRoomIdentifier = 'dashboard';
 var connection = new RTCMultiConnection();
 
 // connection.socketURL = '/';
-connection.socketURL = 'https://live.wetutor.co.za/';
+connection.socketURL = 'https://wetutor.inschool.co.za/';
 
 /// make this room public
 connection.publicRoomIdentifier = publicRoomIdentifier;
