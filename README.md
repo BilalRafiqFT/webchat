@@ -41,7 +41,7 @@ git clone https://github.com/muaz-khan/RTCMultiConnection.git ./
 # you can optionally include --save-dev
 npm install
 
-node server --port=9001
+node server --port=80
 ```
 
 ## Integrate Inside Any Nodejs Application

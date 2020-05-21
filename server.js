@@ -1,5 +1,5 @@
-// http://127.0.0.1:9001
-// http://localhost:9001
+// http://127.0.0.1:80
+// http://localhost:80
 
 const fs = require('fs');
 const path = require('path');
@@ -9,7 +9,7 @@ var httpServer = require('http');
 const ioServer = require('socket.io');
 const RTCMultiConnectionServer = require('rtcmulticonnection-server');
 
-var PORT = 9001;
+var PORT = 80;
 var isUseHTTPs = false;
 
 const jsonPath = {
@@ -27,7 +27,7 @@ config = getBashParameters(config, BASH_COLORS_HELPER);
 
 // if user didn't modifed "PORT" object
 // then read value from "config.json"
-if(PORT === 9001) {
+if(PORT === 80) {
     PORT = config.port;
 }
 if(isUseHTTPs === false) {

@@ -161,7 +161,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         }
 
         if (connection.socketURL.substr(connection.socketURL.length - 1, 1) != '/') {
-            // connection.socketURL = 'https://domain.com:9001/';
+            // connection.socketURL = 'https://domain.com:80/';
             throw '"socketURL" MUST end with a slash.';
         }
 
