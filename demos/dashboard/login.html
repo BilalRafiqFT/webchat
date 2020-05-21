@@ -47,6 +47,18 @@ a:hover {
     color: #671345;
 }
 
+.btn-primary{
+  background: #40B0FC !important;
+}
+.btn{
+  background: transparent !important;
+}
+.form-control{
+  color: #40B0FC !important;
+}
+.form-control::placeholder{
+  color: #40B0FC !important;
+}
 .logo {
     display: block;
     width: 200px;
@@ -344,7 +356,7 @@ footer{
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-center"><button type="submit" class="btn btn-primary px-5" id="btn-join-hidden-room" onclick="login()">Login</button></td>
+                    <td class="text-center"><button type="submit" class="btn px-5" id="btn-join-hidden-room" onclick="login()">Login</button></td>
                   </tr>
                   <tr>
                     <td class="text-center"><button type="button" class="btn px-5 mb-5" id="btn-join-hidden-room">New User</button></td>
@@ -388,7 +400,7 @@ $.ajax(settings).done(function (response) {
   console.log(parsedToken);
   localStorage.setItem('sub',parsedToken.sub);
   localStorage.setItem('role',parsedToken.Role);
-  window.location.replace("https://wetutor.inschool.co.za/demos/dashboard/");
+  window.location.replace("https://live.wetutor.co.za/demos/dashboard/");
 });
 
 function parseJwt (token) {
