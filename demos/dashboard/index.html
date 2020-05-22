@@ -45,7 +45,7 @@
         }
       }
       else{
-        window.location.replace("https://live.wetutor.co.za/demos/dashboard/login.html");
+        window.location.replace("http://wetutor.co.za:9001/demos/dashboard/login.html");
       }
     }
     window.onload = checkRole;
@@ -376,7 +376,7 @@ footer{
     <div class="row">
       <div class="col-md-12 text-center">
         <img class="logo" src="logo.png" alt="RTCMultiConnection" />
-        <button class="btn btn-primary" >logout</button>
+        <button class="btn btn-primary" onclick="logout()">logout</button>
       </div>
     </div>
 
@@ -611,7 +611,7 @@ var publicRoomIdentifier = 'dashboard';
 var connection = new RTCMultiConnection();
 
 // connection.socketURL = '/';
-connection.socketURL = 'https://live.wetutor.co.za/';
+connection.socketURL = 'http://wetutor.co.za:9001/';
 
 /// make this room public
 connection.publicRoomIdentifier = publicRoomIdentifier;
@@ -627,7 +627,11 @@ connection.connectSocket(function(socket) {
         location.reload();
     });
 });
-
+function logout(){
+  localStorage.clear();
+  
+  window.location.replace("http://wetutor.co.za:9001/demos/dashboard/login.html");
+}
 function looper() {
     if (!$('#rooms-list').length) return;
     connection.socket.emit('get-public-rooms', publicRoomIdentifier, function(listOfRooms) {

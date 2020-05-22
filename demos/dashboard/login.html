@@ -406,13 +406,10 @@ function login(){
 
 // xhr.send(data);
     var settings = {
-      "async": true,
-      "crossDomain": true,
-      "url": "http://wetutor.co.za/api/login",
+      "url": "https://localhost:44394/api/login",
       "method": "POST",
       "headers": {
         "content-type": "application/json",
-        "cache-control": "no-cache",
         "Access-Control-Allow-Origin": "*"
       },
       "data": JSON.stringify(data)
@@ -425,7 +422,7 @@ function login(){
       console.log(parsedToken);
       localStorage.setItem('sub',parsedToken.sub);
       localStorage.setItem('role',parsedToken.Role);
-      window.location.replace("https://wetutor.inschool.co.za/demos/dashboard/");
+      window.location.replace("http://wetutor.co.za:9001/demos/dashboard/");
     });
 }
 function parseJwt (token) {
