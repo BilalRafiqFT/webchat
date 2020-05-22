@@ -399,7 +399,7 @@ function login(){
 //   }
 // });
 
-// xhr.open("POST", "http://wetutor.co.za/api/login");
+// xhr.open("POST", "https://wetutor.co.za/api/login");
 // xhr.setRequestHeader("content-type", "application/json");
 // xhr.setRequestHeader("cache-control", "no-cache");
 // xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
@@ -422,7 +422,7 @@ function login(){
       console.log(parsedToken);
       localStorage.setItem('sub',parsedToken.sub);
       localStorage.setItem('role',parsedToken.Role);
-      window.location.replace("http://wetutor.co.za:9001/demos/dashboard/");
+      window.location.replace("https://wetutor.co.za:9001/demos/dashboard/");
     });
 }
 function parseJwt (token) {
