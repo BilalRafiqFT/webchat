@@ -1,4 +1,4 @@
-﻿<!-- Demo version: 2018.12.01 -->
+﻿<!-- Demo version: 2018.12.11 -->
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -8,11 +8,11 @@
   <title>Dashboard + Video Conferencing + Chat + File Sharing | RTCMultiConnection</title>
   <meta name="description" content="WebRTC Dashboard including support for canvas drawing, canvas data syncing, video conferencing, screen sharing and video conferencing. Including chat and file sharing.">
 
-  <link rel="shortcut icon" href="/demos/logo.png">
-  <link rel="stylesheet" type="text/css" href="/demos/css/emojionearea.min.css">
+  <link rel="shortcut icon" href="/live/logo.png">
+  <link rel="stylesheet" type="text/css" href="/live/css/emojionearea.min.css">
 
-  <script src="/demos/js/jquery.min.js"></script>
-  <link href="/demos/css/bootstrap.min.css" rel="stylesheet">
+  <script src="/live/js/jquery.min.js"></script>
+  <link href="/live/css/bootstrap.min.css" rel="stylesheet">
   <script src="/node_modules/webrtc-adapter/out/adapter.js"></script>
   <script src="/dist/RTCMultiConnection.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
@@ -20,155 +20,271 @@
 
   <script src="/node_modules/canvas-designer/dev/webrtc-handler.js"></script>
   <script src="/node_modules/canvas-designer/canvas-designer-widget.js"></script>
-  <script src="/demos/js/emojionearea.min.js"></script>
+  <script src="/live/js/emojionearea.min.js"></script>
   <!-- <script src="/node_modules/multistreamsmixer/MultiStreamsMixer.js"></script> -->
 
-<style type="text/css">
-html, body, section, ul, li, nav, a, h1, h2 {
-    padding: 0;
-    margin: 0;
-    outline: none;
-    text-shadow: none;
-    box-shadow: none;
-    border-radius: 0;
-    text-decoration: none;
-}
+    <style type="text/css">
+    html, body, section, ul, li, nav, a, h1, h2 {
+        padding: 0;
+        margin: 0;
+        outline: none;
+        text-shadow: none;
+        box-shadow: none;
+        border-radius: 0;
+        text-decoration: none;
+    }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 17px;
-    line-height: 1.5em;
-}
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        font-size: 17px;
+        line-height: 1.5em;
+    }
 
-input[disabled], button[disabled] {
-  background: transparent!important;
-  color: #dcd7d7!important;
-  border: 1px solid #dcd7d7!important;
-  cursor: not-allowed!important;
-  text-shadow: none!important;
-  box-shadow: none!important;
-  text-decoration: none!important;
-  outline: none!important;
+    input[disabled], button[disabled] {
+    background: transparent!important;
+    color: #dcd7d7!important;
+    border: 1px solid #dcd7d7!important;
+    cursor: not-allowed!important;
+    text-shadow: none!important;
+    box-shadow: none!important;
+    text-decoration: none!important;
+    outline: none!important;
+    }
+    
+.btn-primary{
+  background: #40B0FC !important;
 }
-</style>
+    </style>
+    <style>
+        .collapse-btn{
+            cursor: pointer;
+            position: absolute;
+            height: 70px;
+            width: 30px;
+            z-index: 99999;
+            right: 0px;
+            top: 45%;
+            border: 1px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #40B0FC;
+            border-radius: 10px 0px 0px 10px;
+            color: #fff;
+        }
+        ::-webkit-scrollbar {
+        width: 5px;
+        }
+        
+        ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+        background-color: #40B0FC;
+        outline: 1px solid slategrey;
+        }
+
+        .h-100vh{
+            height: 100vh !important;
+            overflow: auto;
+        }
+        .extra-controls {
+            position: absolute;
+            right: 21%;
+        }
+        
+        #btn-comments {
+        color: red;
+        margin-top: 5px;
+        font-size: 24px;
+        text-shadow: 1px 1px white;
+        }
+        
+        #other-videos {
+            margin-top: 5px;
+            height: auto;
+            position: relative;
+            background: #f8f8f8;
+        }
+        
+        #other-videos video {
+            width: 48%;
+            margin: 5px;
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 3px;
+            border-radius: 3px;
+        }
+        
+        #txt-chat-message {
+            width: 100%;
+            resize: vertical;
+            margin: 5px;
+            margin-right: 0;
+            min-height: 30px;
+        }
+        
+        #btn-chat-message {
+            margin: 5px;
+        }
+        
+        #conversation-panel {
+            max-height: 200px;
+            overflow: auto;
+            width: 100%;
+            margin-bottom: 3px;
+            min-height: 200px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        #conversation-panel .message {
+            border-bottom: 1px solid #E5E5E5;
+            padding: 0px 5px;
+            font-size: 13px;
+        }
+        
+        #conversation-panel .message img, #conversation-panel .message video, #conversation-panel .message iframe {
+            max-width: 100%;
+        }
+        
+        #main-video {
+            width: 100%;
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 0px 5px;
+            margin: 10px 0 0;
+            position: relative;
+            min-height: 214px;
+            display: flex;
+        }
+        hr {
+            height: 1px;
+            border: 0;
+            background: #E5E5E5;
+        }
+        
+        #btn-attach-file {
+            width: 25px;
+            vertical-align: middle;
+            cursor: pointer;
+            display: none;
+        }
+        
+        #btn-share-screen {
+            width: 25px;
+            vertical-align: middle;
+            cursor: pointer;
+            display: none;
+        }
+        
+        .checkmark {
+            display:none;
+            width: 15px;
+            vertical-align: middle;
+        }
+        
+        #screen-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999999999999;
+            display: none;
+        }
+        .active-users{
+            padding: 5px 10px;
+            position: relative;
+            font-size: 13px;
+            background: #f8f8f8;
+            border-top: 3px solid #fff;
+        }
+        .chat-window{
+            margin-top: 10px;
+            position: relative;
+            background: white;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        #widget-container{
+            position: relative;
+            top: 0;
+            left:0;
+            height: 100%;
+        }
+        @media(max-height: 530px){
+            #main-video{
+                min-height: auto !important;
+                padding: 0 !important;
+                display: block !important;
+            }
+            #widget-container{
+                height:625px !important;
+            }
+        }
+        @media(max-width:768px){
+            #main-video{
+                min-height: auto !important;
+                padding: 0 !important;
+                display: block !important;
+            }
+            #widget-container{
+                height:625px !important;
+            }
+        }
+        .smallSidebar .main-video, .smallSidebar #other-videos, .smallSidebar .chat-window{
+            display: none;
+        }
+        .smallSidebar .active-user-badge{
+            width: 100%;
+            display: block;
+        }
+        .active-user-badge{
+            margin: 0 3px;
+            background: #40B0FC !important;
+        }
+    </style>
+    
 </head>
 <body>
-<style>
-.extra-controls {
-    position: absolute;
-    right: 21%;
-}
 
-#btn-comments {
-  color: red;
-  margin-top: 5px;
-  font-size: 24px;
-  text-shadow: 1px 1px white;
-}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4 col-md-3 pl-1 pr-1 h-100vh" id="chatPanel">
+                
+                <span class="collapse-btn" onclick="collapseboard()">
+                    <svg class="bi bi-caret-left" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 010-1.506l5.48-4.796A1 1 0 0111 3.204v9.592a1 1 0 01-1.659.753z" clip-rule="evenodd"/>
+                    </svg>
+                </span>
+                <video id="screen-viewer" controls playsinline autoplay></video>
+                <div id="left-bar">
+                    <div class="main-video">
+                        <video id="main-video" controls playsinline autoplay></video>
+                    </div>
+                    <div id="other-videos"></div>
+                    <div class="active-users">
+                        <div id="onUserStatusChanged"></div>
+                    </div>
+                    <div class="chat-window">
+                        <div id="conversation-panel"></div>
+                        <div id="key-press" style="text-align: right; display: none; font-size: 11px;">
+                            <span style="vertical-align: middle;"></span>
+                            <img src="https://www.webrtc-experiment.com/images/key-press.gif" style="height: 12px; vertical-align: middle;">
+                        </div>
+                        <textarea id="txt-chat-message"></textarea>
+                        <button class="btn btn-primary visibility-none" id="btn-chat-message" disabled>Send</button>
+                        <img id="btn-attach-file" src="https://www.webrtc-experiment.com/images/attach-file.png" title="Attach a File">
+                        <img id="btn-share-screen" src="https://www.webrtc-experiment.com/images/share-screen.png" title="Share Your Screen">
+                    </div>
+                    <canvas id="temp-stream-canvas" style="display: none;"></canvas>
+                </div>    
 
-#other-videos {
-    margin-top: 5px;
-}
-
-#other-videos video {
-    width: 45%;
-    margin: 5px;
-    border: 1px solid black;
-    padding: 1px;
-    border-radius: 3px;
-}
-
-#txt-chat-message {
-    width: 100%;
-    resize: vertical;
-    margin: 5px;
-    margin-right: 0;
-    min-height: 30px;
-}
-
-#btn-chat-message {
-    margin: 5px;
-}
-
-#conversation-panel {
-    margin-bottom: 20px;
-    text-align: left;
-    max-height: 200px;
-    overflow: auto;
-    border-top: 1px solid #E5E5E5;
-    width: 106%;
-}
-
-#conversation-panel .message {
-    border-bottom: 1px solid #E5E5E5;
-    padding: 5px 10px;
-}
-
-#conversation-panel .message img, #conversation-panel .message video, #conversation-panel .message iframe {
-    max-width: 100%;
-}
-
-#main-video {
-    width: 100%;
-    margin-top: -9px;
-    border-bottom: 1px solid #121010;
-    display: none;
-    padding-bottom: 1px;
-    display: none;
-}
-
-hr {
-    height: 1px;
-    border: 0;
-    background: #E5E5E5;
-}
-
-#btn-attach-file {
-    width: 25px;
-    vertical-align: middle;
-    cursor: pointer;
-    display: none;
-}
-
-#btn-share-screen {
-    width: 25px;
-    vertical-align: middle;
-    cursor: pointer;
-    display: none;
-}
-
-.checkmark {
-    display:none;
-    width: 15px;
-    vertical-align: middle;
-}
-</style>
-
-<article>
-<div id="widget-container" style="position: fixed;bottom: 0;right: 0;left: 20%;height: 100%;border: 1px solid black; border-top:0; border-bottom: 0;"></div>
-<div style="width: 20%; height: 100%; position: absolute;left:0;">
-    <video id="main-video" controls playsinline autoplay></video>
-    <div id="other-videos"></div>
-    <hr>
-    <div style="padding: 5px 10px;">
-        <div id="onUserStatusChanged"></div>
-    </div>
-
-    <div style="margin-top: 20px;position: absolute;bottom: 0;background: white; padding-bottom: 20px; width: 94%">
-        <div id="conversation-panel"></div>
-        <div id="key-press" style="text-align: right; display: none; font-size: 11px;">
-            <span style="vertical-align: middle;"></span>
-            <img src="https://www.webrtc-experiment.com/images/key-press.gif" style="height: 12px; vertical-align: middle;">
+            </div>
+            <div class="col-sm-8 col-md-9 pl-0 pr-1 h-100vh" id="boardPanel">
+                <div id="widget-container"></div>
+            </div>
         </div>
-        <textarea id="txt-chat-message"></textarea>
-        <button class="btn btn-primary" id="btn-chat-message" disabled>Send</button>
-        <img id="btn-attach-file" src="https://www.webrtc-experiment.com/images/attach-file.png" title="Attach a File">
-        <img id="btn-share-screen" src="https://www.webrtc-experiment.com/images/share-screen.png" title="Share Your Screen">
     </div>
-
-    <canvas id="temp-stream-canvas" style="display: none;"></canvas>
-</div>
-</article>
 
 <script>
 (function() {
@@ -208,7 +324,7 @@ connection.maxParticipantsAllowed = 1000;
 var designer = new CanvasDesigner();
 
 // you can place widget.html anywhere
-designer.widgetHtmlURL = '/node_modules/canvas-designer/widget.html';
+designer.widgetHtmlURL = 'widget.html';
 designer.widgetJsURL = '/node_modules/canvas-designer/widget.min.js'
 
 designer.addSyncListener(function(data) {
@@ -225,13 +341,13 @@ designer.setTools({
     eraser: true,
     line: true,
     arrow: true,
-    dragSingle: true,
+    dragSingle: false,
     dragMultiple: true,
     arc: true,
     rectangle: true,
     quadratic: false,
-    bezier: true,
-    marker: true,
+    bezier: false,
+    marker: false,
     zoom: false,
     lineWidth: false,
     colorsPicker: false,
@@ -239,6 +355,20 @@ designer.setTools({
     code: false,
     undo: true
 });
+
+designer.icons = {
+    pencil: 'icons-pack/write.png',
+    eraser: 'icons-pack/erase.png',
+    text: 'icons-pack/inserttext.png',
+    image: 'icons-pack/insertimage.png',
+    pdf: 'icons-pack/insertPDF.png',
+    line: 'icons-pack/line.png',
+    rectangle: 'icons-pack/square.png',
+    undo: 'icons-pack/undo.png',
+    arc: 'icons-pack/circle.png',
+    arrow: 'icons-pack/arrow.png',
+    dragMultiple: 'icons-pack/reposition.png'
+};
 
 // here goes RTCMultiConnection
 
@@ -267,8 +397,13 @@ connection.onUserStatusChanged = function(event) {
     } else {
         names = [connection.extra.userFullName || 'You'].concat(names);
     }
+    var namesData = "<b>Users:</b>";
+    names.forEach((name)=>{
+        namesData += "<span class='badge badge-info p-1 active-user-badge'>"+ name +"</span>"
+    });
 
-    infoBar.innerHTML = '<b>Active users:</b> ' + names.join(', ');
+    // infoBar.innerHTML = '<b>Users:</b> ' + names.join(', ');
+    infoBar.innerHTML = namesData;
 };
 
 connection.onopen = function(event) {
@@ -283,16 +418,7 @@ connection.onopen = function(event) {
 
     document.getElementById('btn-chat-message').disabled = false;
     document.getElementById('btn-attach-file').style.display = 'inline-block';
-
-    if(params.demoType === 'screen-sharing') {
-        document.getElementById('btn-share-screen').style.display = 'inline-block';
-    }
-
-    if(params.demoType === 'canvas-stream') {
-        connection.send({
-            showMainVideo: true
-        }, event.userid);
-    }
+    document.getElementById('btn-share-screen').style.display = 'inline-block';
 };
 
 connection.onclose = connection.onerror = connection.onleave = function(event) {
@@ -301,12 +427,20 @@ connection.onclose = connection.onerror = connection.onleave = function(event) {
 
 connection.onmessage = function(event) {
     if(event.data.showMainVideo) {
-        $('#main-video').show();
+        // $('#main-video').show();
+        $('#screen-viewer').css({
+            top: $('#widget-container').offset().top,
+            left: $('#widget-container').offset().left,
+            width: $('#widget-container').width(),
+            height: $('#widget-container').height()
+        });
+        $('#screen-viewer').show();
         return;
     }
 
     if(event.data.hideMainVideo) {
-        $('#main-video').hide();
+        // $('#main-video').hide();
+        $('#screen-viewer').hide();
         return;
     }
 
@@ -343,41 +477,12 @@ connection.onmessage = function(event) {
 
 // extra code
 
-function beforeOpenRoom(callback) {
-    if(params.demoType !== 'canvas-stream') {
-        callback();
-        return;
-    }
-
-    // capture canvas-2d stream
-    // and share in realtime using RTCPeerConnection.addStream
-    // requires: dev/webrtc-handler.js
-    designer.captureStream(function(stream) {
-        stream.isScreen = true;
-        stream.streamid = stream.id;
-        stream.type = 'local';
-
-        /*
-        var video = document.createElement('video');
-        video.muted = true;
-        video.srcObject = stream;
-        video.play();
-        */
-
-        connection.attachStreams.push(stream);
-        connection.onstream({
-            stream: stream,
-            type: 'local',
-            streamid: stream.id,
-            // mediaElement: video
-        });
-
-        callback();
-    });
-}
-
 connection.onstream = function(event) {
-    if (event.stream.isScreen) {
+    if (event.stream.isScreen && !event.stream.canvasStream) {
+        $('#screen-viewer').get(0).srcObject = event.stream;
+        $('#screen-viewer').hide();
+    }
+    else if (event.extra.roomOwner === true) {
         var video = document.getElementById('main-video');
         video.setAttribute('data-streamid', event.streamid);
         // video.style.display = 'none';
@@ -386,6 +491,7 @@ connection.onstream = function(event) {
             video.volume = 0;
         }
         video.srcObject = event.stream;
+        $('#main-video').show();
     } else {
         event.mediaElement.controls = false;
 
@@ -625,17 +731,15 @@ if(!!params.password) {
 
 designer.appendTo(document.getElementById('widget-container'), function() {
     if (params.open === true || params.open === 'true') {
-        beforeOpenRoom(function() {
-            if(params.demoType === 'screen-sharing') {
-                var tempStreamCanvas = document.getElementById('temp-stream-canvas');
-                var tempStream = tempStreamCanvas.captureStream();
-                tempStream.isScreen = true;
-                tempStream.streamid = tempStream.id;
-                tempStream.type = 'local';
-                connection.attachStreams.push(tempStream);
-                window.tempStream = tempStream;
-            }
+            var tempStreamCanvas = document.getElementById('temp-stream-canvas');
+            var tempStream = tempStreamCanvas.captureStream();
+            tempStream.isScreen = true;
+            tempStream.streamid = tempStream.id;
+            tempStream.type = 'local';
+            connection.attachStreams.push(tempStream);
+            window.tempStream = tempStream;
 
+            connection.extra.roomOwner = true;
             connection.open(params.sessionid, function(isRoomOpened, roomid, error) {
                 if (error) {
                     if (error === connection.errors.ROOM_NOT_AVAILABLE) {
@@ -649,7 +753,6 @@ designer.appendTo(document.getElementById('widget-container'), function() {
                     location.reload();
                 });
             });
-        });
     } else {
         connection.join(params.sessionid, function(isRoomJoined, roomid, error) {
             if (error) {
@@ -756,7 +859,8 @@ function replaceScreenTrack(stream) {
             hideMainVideo: true
         });
 
-        $('#main-video').hide();
+        // $('#main-video').hide();
+        $('#screen-viewer').hide();
         $('#btn-share-screen').show();
         replaceTrack(tempStream.getTracks()[0], screenTrackId);
     });
@@ -771,7 +875,14 @@ function replaceScreenTrack(stream) {
         showMainVideo: true
     });
 
-    $('#main-video').show();
+    // $('#main-video').show();
+    $('#screen-viewer').css({
+            top: $('#widget-container').offset().top,
+            left: $('#widget-container').offset().left,
+            width: $('#widget-container').width(),
+            height: $('#widget-container').height()
+        });
+    $('#screen-viewer').show();
 }
 
 $('#btn-share-screen').click(function() {
@@ -800,6 +911,31 @@ $('#btn-share-screen').click(function() {
         alert('getDisplayMedia API is not available in this browser.');
     }
 });
+function collapseboard(){
+        if($('#chatPanel').hasClass('col-sm-4')){
+        $('#chatPanel').removeClass("col-sm-4");
+        $('#chatPanel').removeClass("col-md-3");
+        $('#chatPanel').addClass("col-sm-1");
+        $('#chatPanel').addClass("col-md-1");
+        $('.collapse-btn').html('<svg class="bi bi-caret-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 12.796L11.481 8 6 3.204v9.592zm.659.753l5.48-4.796a1 1 0 000-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 001.659.753z" clip-rule="evenodd"/></svg>');    
+        $('#boardPanel').removeClass("col-sm-8");
+        $('#boardPanel').removeClass("col-md-9");
+        $('#boardPanel').addClass("col-sm-11");
+        $('#boardPanel').addClass("col-md-11");
+        $('#left-bar').addClass("smallSidebar");
+    }else{
+        $('#chatPanel').removeClass("col-sm-1");
+        $('#chatPanel').removeClass("col-md-1");
+        $('#chatPanel').addClass("col-sm-4");
+        $('#chatPanel').addClass("col-md-3");
+        $('.collapse-btn').html('<svg class="bi bi-caret-left" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 010-1.506l5.48-4.796A1 1 0 0111 3.204v9.592a1 1 0 01-1.659.753z" clip-rule="evenodd"/></svg>');    
+        $('#boardPanel').removeClass("col-sm-11");
+        $('#boardPanel').removeClass("col-md-11");
+        $('#boardPanel').addClass("col-sm-8");
+        $('#boardPanel').addClass("col-md-9");    
+        $('#left-bar').removeClass("smallSidebar");
+    }
+}
 </script>
 </body>
 </html>
