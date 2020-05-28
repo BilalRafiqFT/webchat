@@ -422,7 +422,7 @@ function login(){
       console.log(parsedToken);
       localStorage.setItem('sub',parsedToken.sub);
       localStorage.setItem('role',parsedToken.Role);
-      window.location.replace("https://wetutor.co.za:9001/live/dashboard/");
+      window.location.replace("https://live.wetutor.co.za/live/dashboard/");
     });
 }
 function parseJwt (token) {
