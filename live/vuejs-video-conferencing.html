@@ -127,6 +127,7 @@ connection.iceServers = [{
 }];
 
 connection.iceServers.push({    urls: 'stun:stun.wetutor.co.za'});
+connection.iceServers.push({    urls: 'turn:turn.wetutor.co.za'});
 Vue.component('todo-item', {
   props: ['todo'],
   template: '<video controls autoplay playsinline :srcObject.prop="todo.srcObject" :muted="todo.muted" :id="todo.id"></video>'
