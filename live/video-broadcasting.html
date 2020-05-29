@@ -137,7 +137,6 @@ connection.iceServers = [{
 }];
 
 connection.iceServers.push({    urls: 'stun:stun.wetutor.co.za'});
-connection.iceServers.push({    urls: 'turn:turn.wetutor.co.za'});
 connection.videosContainer = document.getElementById('videos-container');
 connection.onstream = function(event) {
     var existing = document.getElementById(event.streamid);

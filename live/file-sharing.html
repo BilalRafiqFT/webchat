@@ -400,16 +400,12 @@
 
                 // https://www.rtcmulticonnection.org/docs/iceServers/
                 connection.iceServers = [{
-                    'urls': [
-                        'stun:stun.l.google.com:19302',
-                        'stun:stun1.l.google.com:19302',
-                        'stun:stun2.l.google.com:19302',
-                        'stun:stun.l.google.com:19302?transport=udp',
-                    ]
-                }];
+                  urls: "turn:turn.wetutor.co.za",
+                username: "saleam",
+                credential: "bilal12345"
+                      }];
 
                 connection.iceServers.push({    urls: 'stun:stun.wetutor.co.za'});
-connection.iceServers.push({    urls: 'turn:turn.wetutor.co.za'});
                 
                 connection.filesContainer = logsDiv;
 
