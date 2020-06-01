@@ -138,7 +138,7 @@
             overflow: hidden;
             padding:10px;
             overflow-y: auto;
-            border:1px solid #40B0FC;
+            border:1px solid #FF0000;
             border-top: none;
             border-bottom: none;
             box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
@@ -170,7 +170,11 @@
             border-bottom: 3px solid #fff;
             border-radius: 2px;
             display: none;
-            background: #40B0FC !important;
+            background: transparent;
+            cursor: pointer;
+        }
+        .tool-box canvas.selected-shape{
+            background: #FF0000 !important;
         }
         .tool-box canvas:first-child,
         .tool-box canvas:first-child:hover {
@@ -179,10 +183,10 @@
         }
         .tool-box canvas:hover {
             box-shadow: none;
-            background: #40B0FC ;
+            background: #FF0000 ;
         }
         /* .selected-shape {
-            background: #40B0FC !important;
+            background: #FF0000 !important;
         } */
         /* surface */
 

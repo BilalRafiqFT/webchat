@@ -4,10 +4,12 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, viewport-fit=cover">
   <title>WeTutor | Live Online Teaching</title>
   <meta name="description" content="WebRTC Dashboard including support for canvas drawing, canvas data syncing, video conferencing, screen sharing and video conferencing. Including chat and file sharing.">
-
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
+  <meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
   <link rel="shortcut icon" href="logo.png">
 
   <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -15,7 +17,10 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <script src="../../socket.io/socket.io.js"></script>
-  <script src="../../dist/RTCMultiConnection.min.js"></script>
+  <script src="../../dist/RTCMultiConnection.min.js"></script>  
+  <!-- <script src="cordova.js"></script>
+  <script src="js/index.js"></script> -->
+  
   <script>
     function removeElement(elementId) {
         // Removes an element from the document
@@ -45,7 +50,7 @@
         }
       }
       else{
-        window.location.replace("https://live.wetutor.co.za/live/dashboard/login.html");
+        window.location.replace("login.html");
       }
     }
     window.onload = checkRole;
@@ -630,7 +635,7 @@ connection.connectSocket(function(socket) {
 function logout(){
   localStorage.clear();
   
-  window.location.replace("https://live.wetutor.co.za/live/dashboard/login.html");
+  window.location.replace("login.html");
 }
 function looper() {
     if (!$('#rooms-list').length) return;
